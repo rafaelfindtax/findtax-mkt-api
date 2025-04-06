@@ -16,10 +16,6 @@ app.use(express.json());
 app.use(API_VERSION, accountRoutes); // Monta as rotas em /api
 app.use(API_VERSION, appCategoriesRoutes); 
 
-app.get('/health', (req, res) => {
-  res.json({ message: 'Server is running!' });
-});
-
 const startServer = async () => {
   const dbInitialized = await initializeDatabase();
   if (dbInitialized) {

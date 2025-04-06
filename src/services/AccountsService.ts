@@ -40,15 +40,17 @@ export class AccountsService {
     return this.repository.create(accountData);
   }
 
-  // Atualizar uma conta por UUID
-  async updateAccount(uuid: string, accountData: Partial<Accounts>): Promise<Accounts | null> {
-    const existingAccount = await this.repository.findByUuid(uuid);
+  // Atualizar uma conta por Email
+  async updateAccountByEmail(email: string, accountData: Partial<Accounts>): Promise<Accounts | null> {
+    const existingAccount = await this.repository.findByEmail(email);
+    
     if (!existingAccount) {
       throw new Error('Account not found');
     }
-    return this.repository.update(uuid, accountData);
+  
+    return this.repository.updateByEmail(email, accountData);
   }
-
+  
   // Deletar uma conta por UUID
   async deleteAccount(uuid: string): Promise<boolean> {
     const existingAccount = await this.repository.findByUuid(uuid);

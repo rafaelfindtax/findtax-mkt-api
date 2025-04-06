@@ -66,4 +66,30 @@ export class AccountsRepository {
     await this.repository.update(uuid, { lastLoggedAt: new Date() });
     return this.findByUuid(uuid);
   }
+
+  async updateByEmail(email: string, accountData: Partial<Accounts>): Promise<Accounts | null> {
+    try {
+      // Remover campos que não podem ser atualizados diretamente
+      const {
+        appRatings,
+        id,
+        uuid,
+        createdAt,
+        updatedAt,
+        ...safeData
+      } = accountData;
+  
+      await this.repository
+        .createQueryBuilder()
+        .update(Accounts)
+        .set(safeData)
+        .where("email = :email", { email })
+        .execute();
+  
+      return this.repository.findOne({ where: { email } });
+    } catch (error) {
+      console.error('Erro ao atualizar conta:', error);
+      throw new Error('Erro ao atualizar conta no banco');
+    }
+  }
 }
