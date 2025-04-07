@@ -36,4 +36,17 @@ export class AppProviderRepository {
     const result = await this.repository.delete(uuid);
     return result.affected !== 0;
   }
+
+  async findByName(name: string): Promise<AppProvider[]> {
+    return this.repository.find({
+      where: { name },
+      relations: ['apps', 'leisIncentivos'],
+    });
+  }
+
+
+  async updateUpdatedAt(uuid: string): Promise<AppProvider | null> {
+    await this.repository.update(uuid, { updatedAt: new Date() });
+    return this.findByUuid(uuid);
+  }
 }
