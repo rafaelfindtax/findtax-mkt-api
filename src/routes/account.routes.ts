@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { AccountsService } from '../services/AccountsService';
+import { authMiddleware , AuthenticatedRequest} from '../middleware/auth';
 
 const router = Router();
 const accountService = new AccountsService();
@@ -12,5 +13,53 @@ router.get('/accounts', async (req, res) => {
     res.status(500).json({ message: 'Error fetching accounts', error });
   }
 });
+
+router.get('/accounts/:uuid', async (req, res) => {
+  try {
+    const { uuid } = req.params; // Pega o uuid da URL
+    const account = await accountService.getAccountByUuid(uuid);
+
+    if (account) {
+      res.json({ account, message: 'Account fetched successfully!' });
+    } else {
+      res.status(404).json({ message: `Account with UUID ${uuid} not found` });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching account', error });
+  }
+}); 
+
+router.get('/accounts/email/:email', authMiddleware, async (req: AuthenticatedRequest, res) => {
+  try {
+    const { email } = req.params;
+
+    const account = await accountService.getAccountByEmail(email);
+
+    if (account) {
+      res.json({ account, message: 'Account fetched successfully by email!' });
+    } else {
+      res.status(404).json({ message: `Account with email ${email} not found` });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching account by email', error });
+  }
+});
+
+router.put('/accounts/email/:email', authMiddleware, async (req: AuthenticatedRequest, res): Promise<void> => {
+  try {
+    const { email } = req.params;
+    const updatedAccount = await accountService.updateAccountByEmail(email, req.body);
+
+    if (!updatedAccount) {
+      res.status(404).json({ message: 'Account not found' });
+      return;
+    }
+
+    res.json({ account: updatedAccount, message: 'Account updated successfully!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating account', error });
+  }
+});
+
 
 export default router;
