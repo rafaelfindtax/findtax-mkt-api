@@ -61,5 +61,22 @@ router.put('/accounts/email/:email', authMiddleware, async (req: AuthenticatedRe
   }
 });
 
+router.get('/accounts/:email/provider', authMiddleware, async (req: AuthenticatedRequest, res) => {
+  try {
+    const { email } = req.params;
+
+    const appProvider = await accountService.getAppProviderByAccountEmail(email);
+
+    if (!appProvider) {
+      res.status(404).json({ message: `AppProvider not found for account with email ${email}` });
+      return;
+    }
+
+    res.json({ appProvider, message: 'AppProvider fetched successfully by account email!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching AppProvider by account email', error });
+  }
+});
+
 
 export default router;

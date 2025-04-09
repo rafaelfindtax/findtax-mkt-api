@@ -14,6 +14,7 @@ router.get('/provider-types', async (req, res) => {
 });
 
 
+
 router.post('/provider-types', async (req, res) => {
   try {
     const newType = await providerTypeService.createProviderType(req.body);
@@ -29,6 +30,15 @@ router.put('/provider-types/:uuid', async (req, res) => {
     res.json(updated);
   } catch (error) {
     res.status(500).json({ message: 'Error updating provider type', error });
+  }
+});
+
+router.get('/provider-types/:uuid', async (req, res) => {
+  try {
+    const deleted = await providerTypeService.getProviderTypeByUuid(req.params.uuid);
+    res.json({ deleted });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching provider type', error });
   }
 });
 

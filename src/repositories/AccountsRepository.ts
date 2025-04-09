@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
-import { Accounts } from '../entities/Accounts'; // Ajuste o caminho conforme necessário
-import { AppDataSource } from '../config/database'; // Ajuste o caminho conforme necessário
+import { Accounts } from '../entities/Accounts';
+import { AppDataSource } from '../config/database';
 
 export class AccountsRepository {
   private repository: Repository<Accounts>;
@@ -12,7 +12,7 @@ export class AccountsRepository {
   // Buscar todos os registros
   async findAll(): Promise<Accounts[]> {
     return this.repository.find({
-      relations: ['appRatings'], // Inclui a relação com AppRating
+      relations: ['appRatings', 'appProvider'], // Inclui appProvider
     });
   }
 
@@ -20,7 +20,7 @@ export class AccountsRepository {
   async findByUuid(uuid: string): Promise<Accounts | null> {
     return this.repository.findOne({
       where: { uuid },
-      relations: ['appRatings'],
+      relations: ['appRatings', 'appProvider'], // Inclui appProvider
     });
   }
 
@@ -28,7 +28,7 @@ export class AccountsRepository {
   async findById(id: number): Promise<Accounts | null> {
     return this.repository.findOne({
       where: { id },
-      relations: ['appRatings'],
+      relations: ['appRatings', 'appProvider'], // Inclui appProvider
     });
   }
 
@@ -36,7 +36,7 @@ export class AccountsRepository {
   async findByEmail(email: string): Promise<Accounts | null> {
     return this.repository.findOne({
       where: { email },
-      relations: ['appRatings'],
+      relations: ['appRatings', 'appProvider'], // Inclui appProvider
     });
   }
 
@@ -44,7 +44,6 @@ export class AccountsRepository {
   async create(accountData: Partial<Accounts>): Promise<Accounts> {
     const account = this.repository.create({
       ...accountData,
-      // O uuid será gerado automaticamente pelo banco devido ao default: gen_random_uuid()
     });
     return this.repository.save(account);
   }
@@ -67,9 +66,9 @@ export class AccountsRepository {
     return this.findByUuid(uuid);
   }
 
+  // Atualizar por email
   async updateByEmail(email: string, accountData: Partial<Accounts>): Promise<Accounts | null> {
     try {
-      // Remover campos que não podem ser atualizados diretamente
       const {
         appRatings,
         id,
@@ -78,15 +77,15 @@ export class AccountsRepository {
         updatedAt,
         ...safeData
       } = accountData;
-  
+
       await this.repository
         .createQueryBuilder()
         .update(Accounts)
         .set(safeData)
         .where("email = :email", { email })
         .execute();
-  
-      return this.repository.findOne({ where: { email } });
+
+      return this.findByEmail(email);
     } catch (error) {
       console.error('Erro ao atualizar conta:', error);
       throw new Error('Erro ao atualizar conta no banco');
