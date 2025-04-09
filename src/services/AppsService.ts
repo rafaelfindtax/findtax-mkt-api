@@ -60,4 +60,19 @@ export class AppsService {
     }
     return this.repository.updateUpdatedAt(appUuid);
   }
+
+  async updateAppPhoto(uuid: string, appPhoto: string) {
+    const result = await this.repository.update(
+      uuid,
+      {
+        appPhoto: appPhoto,
+        updatedAt: new Date()
+      }
+    );
+    if (!result) {
+      throw new Error('Update operation failed');
+    }
+    return result ? { success: true } : null;
+  }
+  
 }

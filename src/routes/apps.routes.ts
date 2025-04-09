@@ -83,6 +83,30 @@ router.put('/apps/:uuid', authMiddleware, async (req, res) => {
   }
 });
 
+router.put('/apps/:uuid', authMiddleware, async (req, res) => {
+  try {
+    const { uuid } = req.params;
+    const updatedApp = await appService.updateApp(uuid, req.body);
+
+    res.json({ app: updatedApp, message: 'App updated successfully!' });
+  } catch (error: any) {
+    res.status(400).json({ message: 'Error updating app', error: error.message });
+  }
+});
+
+router.put('/apps/:uuid/photo', authMiddleware, async (req, res) => {
+  try {
+    const updated = await appService.updateAppPhoto(req.params.uuid, req.body.appPhoto);
+    if (!updated) {
+      res.status(404).json({ message: 'App não encontrado' });
+      return;
+    }
+    res.json({ message: 'Foto do app atualizada com sucesso!', updated });
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+    res.status(400).json({ message: 'Erro ao atualizar a foto', error: errorMessage });
+  }
+});
 
 
 // Atualizar updatedAt do App
