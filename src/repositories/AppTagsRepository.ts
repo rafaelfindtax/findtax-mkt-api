@@ -11,28 +11,28 @@ export class AppTagsRepository {
 
   async findAll(): Promise<AppTags[]> {
     return this.repository.find({
-      relations: ['appUu'],
+      relations: ['appUuid'],
     });
   }
 
   async findById(id: number): Promise<AppTags | null> {
     return this.repository.findOne({
       where: { id },
-      relations: ['appUu'],
+      relations: ['appUuid'],
     });
   }
 
   async findByName(name: string): Promise<AppTags[]> {
     return this.repository.find({
       where: { name },
-      relations: ['appUu'],
+      relations: ['appUuid'],
     });
   }
 
   async findByAppUuid(appUuid: string): Promise<AppTags[]> {
     return this.repository.find({
-      where: { appUu: { appUuid } },
-      relations: ['appUu'],
+      where: { appUuid: { appUuid } },
+      relations: ['appUuid'],
     });
   }
 

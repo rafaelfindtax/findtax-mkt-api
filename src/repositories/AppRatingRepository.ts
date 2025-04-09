@@ -11,28 +11,28 @@ export class AppRatingRepository {
 
   async findAll(): Promise<AppRating[]> {
     return this.repository.find({
-      relations: ['accountUu', 'appUu'],
+      relations: ['accountUu', 'appUuid'],
     });
   }
 
   async findByUuid(uuid: string): Promise<AppRating | null> {
     return this.repository.findOne({
       where: { uuid },
-      relations: ['accountUu', 'appUu'],
+      relations: ['accountUu', 'appUuid'],
     });
   }
 
   async findByAccountUuid(accountUuid: string): Promise<AppRating[]> {
     return this.repository.find({
       where: { accountUu: { uuid: accountUuid } },
-      relations: ['accountUu', 'appUu'],
+      relations: ['accountUu', 'appUuid'],
     });
   }
 
   async findByAppUuid(appUuid: string): Promise<AppRating[]> {
     return this.repository.find({
-      where: { appUu: { appUuid } },
-      relations: ['accountUu', 'appUu'],
+      where: { appUuid: { appUuid } },
+      relations: ['accountUu', 'appUuid'],
     });
   }
 

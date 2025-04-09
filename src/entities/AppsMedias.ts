@@ -28,5 +28,5 @@ export class AppsMedias {
 
   @ManyToOne(() => Apps, (apps) => apps.appsMedias)
   @JoinColumn([{ name: "app_uuid", referencedColumnName: "appUuid" }])
-  appUu: Apps;
+  appUuid: Apps;
 }

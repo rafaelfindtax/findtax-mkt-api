@@ -24,7 +24,7 @@ export class AppMainFunctionalitiesService {
     if (!functionalityData.description) {
       throw new Error('Description is required');
     }
-    if (!functionalityData.appUu || !functionalityData.appUu.appUuid) {
+    if (!functionalityData.appUuid || !functionalityData.appUuid.appUuid) {
       throw new Error('App UUID is required');
     }
     return this.repository.create(functionalityData);

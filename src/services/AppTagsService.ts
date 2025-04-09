@@ -28,7 +28,7 @@ export class AppTagsService {
     if (!tagData.name) {
       throw new Error('Name is required');
     }
-    if (!tagData.appUu || !tagData.appUu.appUuid) {
+    if (!tagData.appUuid || !tagData.appUuid.appUuid) {
       throw new Error('App UUID is required');
     }
     return this.repository.create(tagData);
