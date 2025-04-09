@@ -24,7 +24,7 @@ export class LeisMediasService {
     if (!mediaData.assetId) {
       throw new Error('Asset ID is required');
     }
-    if (!mediaData.leiUu || !mediaData.leiUu.leiUuid) {
+    if (!mediaData.leiUuid || !mediaData.leiUuid.leiUuid) {
       throw new Error('Lei UUID is required');
     }
     return this.repository.create(mediaData);

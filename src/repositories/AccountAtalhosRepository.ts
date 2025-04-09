@@ -12,7 +12,7 @@ export class AccountAtalhosRepository {
   // Buscar todos os registros
   async findAll(): Promise<AccountAtalhos[]> {
     return this.repository.find({
-      relations: ['atalhoMediaUu'], // Inclui a relação com AtalhosMedias
+      relations: ['atalhoMediaUuid'], // Inclui a relação com AtalhosMedias
     });
   }
 
@@ -20,7 +20,7 @@ export class AccountAtalhosRepository {
   async findByUuid(atalhoUuid: string): Promise<AccountAtalhos | null> {
     return this.repository.findOne({
       where: { atalhoUuid },
-      relations: ['atalhoMediaUu'], // Inclui a relação
+      relations: ['atalhoMediaUuid'], // Inclui a relação
     });
   }
 
@@ -28,7 +28,7 @@ export class AccountAtalhosRepository {
   async findByName(name: string): Promise<AccountAtalhos[]> {
     return this.repository.find({
       where: { name },
-      relations: ['atalhoMediaUu'],
+      relations: ['atalhoMediaUuid'],
     });
   }
 
@@ -59,8 +59,8 @@ export class AccountAtalhosRepository {
   // Buscar por atalhoMediaUuid (relação)
   async findByAtalhoMediaUuid(atalhoMediaUuid: string): Promise<AccountAtalhos[]> {
     return this.repository.find({
-      where: { atalhoMediaUu: { atalhoMediaUuid } },
-      relations: ['atalhoMediaUu'],
+      where: { atalhoMediaUuid: { atalhoMediaUuid } },
+      relations: ['atalhoMediaUuid'],
     });
   }
 

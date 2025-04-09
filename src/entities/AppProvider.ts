@@ -45,7 +45,7 @@ export class AppProvider {
   @JoinColumn([
     { name: "provider_type_uuid", referencedColumnName: "providerTypeUuid" },
   ])
-  providerTypeUu: ProviderTypes;
+  providerTypeUuid: ProviderTypes;
 
   @OneToMany(() => Apps, (apps) => apps.appProviderUuid)
   apps: Apps[];

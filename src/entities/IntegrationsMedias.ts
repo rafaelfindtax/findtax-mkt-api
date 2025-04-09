@@ -28,7 +28,7 @@ export class IntegrationsMedias {
 
   @OneToMany(
     () => AppIntegrations,
-    (appIntegrations) => appIntegrations.integrationsMediaUu
+    (appIntegrations) => appIntegrations.integrationsMediaUuid
   )
   appIntegrations: AppIntegrations[];
 }

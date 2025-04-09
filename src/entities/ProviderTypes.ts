@@ -17,6 +17,6 @@ export class ProviderTypes {
   @Column("text", { name: "description", nullable: true })
   description: string | null;
 
-  @OneToMany(() => AppProvider, (appProvider) => appProvider.providerTypeUu)
+  @OneToMany(() => AppProvider, (appProvider) => appProvider.providerTypeUuid)
   appProviders: AppProvider[];
 }
