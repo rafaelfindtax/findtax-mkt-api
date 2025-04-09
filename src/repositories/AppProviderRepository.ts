@@ -11,14 +11,14 @@ export class AppProviderRepository {
 
   async findAll(): Promise<AppProvider[]> {
     return this.repository.find({
-      relations: ['apps', 'leisIncentivos', 'providerTypeUu'],
+      relations: ['apps', 'leisIncentivos', 'providerTypeUu', 'accounts'],
     });
   }
 
   async findByUuid(uuid: string): Promise<AppProvider | null> {
     return this.repository.findOne({
       where: { uuid },
-      relations: ['apps', 'leisIncentivos', 'providerTypeUu'],
+      relations: ['apps', 'leisIncentivos', 'providerTypeUu', 'accounts'],
     });
   }
 
@@ -40,10 +40,9 @@ export class AppProviderRepository {
   async findByName(name: string): Promise<AppProvider[]> {
     return this.repository.find({
       where: { name },
-      relations: ['apps', 'leisIncentivos'],
+      relations: ['apps', 'leisIncentivos', 'accounts'],
     });
   }
-
 
   async updateUpdatedAt(uuid: string): Promise<AppProvider | null> {
     await this.repository.update(uuid, { updatedAt: new Date() });

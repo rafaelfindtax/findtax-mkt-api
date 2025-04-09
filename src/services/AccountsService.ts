@@ -1,11 +1,15 @@
-import { Accounts } from '../entities/Accounts'; // Ajuste o caminho conforme necessário
-import { AccountsRepository } from '../repositories/AccountsRepository'; // Ajuste o caminho conforme necessário
+import { Accounts } from '../entities/Accounts';
+import { AccountsRepository } from '../repositories/AccountsRepository';
+import { AppProvider } from '../entities/AppProvider'; // Importa a entidade
+import { AppProviderRepository } from '../repositories/AppProviderRepository'; // Importa o repository
 
 export class AccountsService {
   private repository: AccountsRepository;
+  private appProviderRepository: AppProviderRepository;
 
   constructor() {
     this.repository = new AccountsRepository();
+    this.appProviderRepository = new AppProviderRepository();
   }
 
   // Obter todas as contas
@@ -28,9 +32,22 @@ export class AccountsService {
     return this.repository.findByEmail(email);
   }
 
-  // Criar uma nova conta
+  // Novo método: Buscar AppProvider por email da Account
+  async getAppProviderByAccountEmail(email: string): Promise<AppProvider | null> {
+    const account = await this.repository.findByEmail(email);
+
+    if (!account) {
+      throw new Error('Account not found');
+    }
+
+    if (!account.appProvider) {
+      throw new Error('Account does not have an AppProvider');
+    }
+
+    return this.appProviderRepository.findByUuid(account.appProvider.uuid);
+  }
+
   async createAccount(accountData: Partial<Accounts>): Promise<Accounts> {
-    // Validações básicas
     if (!accountData.email || !accountData.password || !accountData.name) {
       throw new Error('Email, password, and name are required');
     }
@@ -40,18 +57,16 @@ export class AccountsService {
     return this.repository.create(accountData);
   }
 
-  // Atualizar uma conta por Email
   async updateAccountByEmail(email: string, accountData: Partial<Accounts>): Promise<Accounts | null> {
     const existingAccount = await this.repository.findByEmail(email);
-    
+
     if (!existingAccount) {
       throw new Error('Account not found');
     }
-  
+
     return this.repository.updateByEmail(email, accountData);
   }
-  
-  // Deletar uma conta por UUID
+
   async deleteAccount(uuid: string): Promise<boolean> {
     const existingAccount = await this.repository.findByUuid(uuid);
     if (!existingAccount) {
@@ -60,7 +75,6 @@ export class AccountsService {
     return this.repository.delete(uuid);
   }
 
-  // Atualizar a data do último login (lastLoggedAt)
   async updateLastLoggedAt(uuid: string): Promise<Accounts | null> {
     const existingAccount = await this.repository.findByUuid(uuid);
     if (!existingAccount) {

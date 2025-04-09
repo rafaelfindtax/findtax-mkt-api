@@ -3,9 +3,12 @@ import {
   Entity,
   Index,
   OneToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { AppRating } from "./AppRating";
+import { AppProvider } from "./AppProvider";
 
 @Index("accounts_email_key", ["email"], { unique: true })
 @Index("accounts_pkey", ["uuid"], { unique: true })
@@ -103,4 +106,8 @@ export class Accounts {
 
   @OneToMany(() => AppRating, (appRating) => appRating.accountUu)
   appRatings: AppRating[];
+
+  @ManyToOne(() => AppProvider, (appProvider) => appProvider.accounts)
+  @JoinColumn([{ name: "app_provider_uuid", referencedColumnName: "uuid" }])
+  appProvider: AppProvider | null;
 }
