@@ -7,7 +7,7 @@ import appProviderTypesRoutes from './routes/providerType.routes';
 import appProviderService from './routes/appProvider.routes';
 import appFunctionalitiesRoutes from './routes/AppMainFunctionalities.routes';
 import appsMediasRoutes from './routes/appMedias.routes';
-
+import appsRoutes from './routes/apps.routes';
 import cors from 'cors';
 
 config();
@@ -24,6 +24,8 @@ app.use(API_VERSION, appProviderTypesRoutes);
 app.use(API_VERSION, appProviderService); 
 app.use(API_VERSION, appFunctionalitiesRoutes);
 app.use(API_VERSION, appsMediasRoutes); 
+app.use(API_VERSION, appsMediasRoutes); 
+app.use(API_VERSION, appsRoutes); 
 
 
 const startServer = async () => {
