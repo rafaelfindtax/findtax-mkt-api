@@ -16,12 +16,12 @@ export class LeisIncentivoService {
     return this.repository.findByUuid(leiUuid);
   }
 
-  async getLeisByProviderUuid(appProviderUuid: string): Promise<LeisIncentivo[]> {
-    return this.repository.findByProviderUuid(appProviderUuid);
+  async getLeisByProviderUuid(appProviderUuidid: string): Promise<LeisIncentivo[]> {
+    return this.repository.findByProviderUuid(appProviderUuidid);
   }
 
   async createLei(leiData: Partial<LeisIncentivo>): Promise<LeisIncentivo> {
-    if (!leiData.appProviderUu || !leiData.appProviderUu.uuid) {
+    if (!leiData.appProviderUuid || !leiData.appProviderUuid.uuid) {
       throw new Error('App Provider UUID is required');
     }
     return this.repository.create(leiData);

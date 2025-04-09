@@ -47,12 +47,12 @@ export class AppProvider {
   ])
   providerTypeUu: ProviderTypes;
 
-  @OneToMany(() => Apps, (apps) => apps.appProviderUu)
+  @OneToMany(() => Apps, (apps) => apps.appProviderUuid)
   apps: Apps[];
 
   @OneToMany(
     () => LeisIncentivo,
-    (leisIncentivo) => leisIncentivo.appProviderUu
+    (leisIncentivo) => leisIncentivo.appProviderUuid
   )
   leisIncentivos: LeisIncentivo[];
 }

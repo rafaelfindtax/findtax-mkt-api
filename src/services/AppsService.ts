@@ -20,8 +20,8 @@ export class AppsService {
     return this.repository.findByName(name);
   }
 
-  async getAppsByProviderUuid(appProviderUuid: string): Promise<Apps[]> {
-    return this.repository.findByProviderUuid(appProviderUuid);
+  async getAppsByProviderUuid(appProviderUuidid: string): Promise<Apps[]> {
+    return this.repository.findByProviderUuid(appProviderUuidid);
   }
 
   async createApp(appData: Partial<Apps>): Promise<Apps> {
@@ -31,7 +31,7 @@ export class AppsService {
     if (!appData.description) {
       throw new Error('Description is required');
     }
-    if (!appData.appProviderUu || !appData.appProviderUu.uuid) {
+    if (!appData.appProviderUuid || !appData.appProviderUuid.uuid) {
       throw new Error('App Provider UUID is required');
     }
     return this.repository.create(appData);

@@ -76,7 +76,7 @@ export class LeisIncentivo {
 
   @ManyToOne(() => AppProvider, (appProvider) => appProvider.leisIncentivos)
   @JoinColumn([{ name: "app_provider_uuid", referencedColumnName: "uuid" }])
-  appProviderUu: AppProvider;
+  appProviderUuid: AppProvider;
 
   @OneToMany(() => LeisMedias, (leisMedias) => leisMedias.leiUu)
   leisMedias: LeisMedias[];

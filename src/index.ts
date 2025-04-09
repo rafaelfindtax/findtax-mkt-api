@@ -5,7 +5,8 @@ import accountRoutes from './routes/account.routes';
 import appCategoriesRoutes from './routes/app-categories.routes';
 import appProviderTypesRoutes from './routes/providerType.routes';
 import appProviderService from './routes/appProvider.routes';
-import appFunctionalitiesRoutes from './routes/appMainFunctionalities.routes';
+import appFunctionalitiesRoutes from './routes/AppMainFunctionalities.routes';
+import appsMediasRoutes from './routes/appMedias.routes';
 
 import cors from 'cors';
 
@@ -21,7 +22,9 @@ app.use(API_VERSION, accountRoutes); // Monta as rotas em /api
 app.use(API_VERSION, appCategoriesRoutes); 
 app.use(API_VERSION, appProviderTypesRoutes); 
 app.use(API_VERSION, appProviderService); 
-app.use(API_VERSION, appFunctionalitiesRoutes); 
+app.use(API_VERSION, appFunctionalitiesRoutes);
+app.use(API_VERSION, appsMediasRoutes); 
+
 
 const startServer = async () => {
   const dbInitialized = await initializeDatabase();
