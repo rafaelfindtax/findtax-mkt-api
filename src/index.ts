@@ -5,9 +5,7 @@ import accountRoutes from './routes/account.routes';
 import appCategoriesRoutes from './routes/app-categories.routes';
 import appProviderTypesRoutes from './routes/providerType.routes';
 import appProviderService from './routes/appProvider.routes';
-import appFunctionalitiesRoutes from './routes/AppMainFunctionalities.routes';
 import appsMediasRoutes from './routes/appMedias.routes';
-import appsRoutes from './routes/apps.routes';
 import appFunctionalitiesRoutes from './routes/AppMainFunctionalities.routes';
 import appsRoutes  from './routes/apps.routes'
 
