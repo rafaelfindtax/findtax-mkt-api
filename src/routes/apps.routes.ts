@@ -1,93 +1,99 @@
 import { Router } from 'express';
 import { AppsService } from '../services/AppsService';
+import { authMiddleware, AuthenticatedRequest } from '../middleware/auth';
 
 const router = Router();
-const appsService = new AppsService();
+const appService = new AppsService();
 
-// Buscar todos os apps
-router.get('/apps', async (req, res) => {
+// Buscar todos os Apps
+router.get('/apps', authMiddleware, async (req, res) => {
   try {
-    const apps = await appsService.getAllApps();
+    const apps = await appService.getAllApps();
     res.json({ apps, message: 'Apps fetched successfully!' });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching apps', error });
   }
 });
 
-// Buscar app por UUID
-router.get('/apps/:uuid', async (req, res) => {
-  try {
-    const app = await appsService.getAppByUuid(req.params.uuid);
+// Buscar App por UUID
+// Atualizar App
+router.get('/apps/:uuid', authMiddleware, async (req, res) => {
+    try {
+        const { uuid } = req.params;
+        const app = await appService.getAppByUuid(uuid);
+  
+      
     if (!app) {
-       res.status(404).json({ message: 'App not found' });
-       return
-    }
-    res.json(app);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching app', error });
-  }
-});
+        res.status(404).json({ message: `App with UUID ${uuid} not found` });
+      }
+  
+    res.json({ app, message: 'App fetched successfully!' });
+      
 
-// Buscar apps por nome
-router.get('/apps-by-name/:name', async (req, res) => {
+    } catch (error: any) {
+        res.status(500).json({ message: 'Error fetching app', error });
+    }
+  });
+  
+
+
+// Buscar Apps por nome
+router.get('/apps/name/:name', authMiddleware, async (req, res) => {
   try {
-    const apps = await appsService.getAppsByName(req.params.name);
-    res.json(apps);
+    const { name } = req.params;
+    const apps = await appService.getAppsByName(name);
+
+    res.json({ apps, message: 'Apps fetched successfully by name!' });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching apps by name', error });
   }
 });
 
-// Buscar apps por provider UUID
-router.get('/apps-by-provider/:providerUuid', async (req, res) => {
+// Buscar Apps por UUID do Provider
+router.get('/apps/provider/:providerUuid', authMiddleware, async (req, res) => {
   try {
-    const apps = await appsService.getAppsByProviderUuid(req.params.providerUuid);
-    res.json(apps);
+    const { providerUuid } = req.params;
+    const apps = await appService.getAppsByProviderUuid(providerUuid);
+
+    res.json({ apps, message: 'Apps fetched successfully by provider!' });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching apps by provider UUID', error });
+    res.status(500).json({ message: 'Error fetching apps by provider', error });
   }
 });
 
-// Criar novo app
-router.post('/apps', async (req, res) => {
+// Criar App
+router.post('/apps', authMiddleware, async (req, res) => {
   try {
-    const newApp = await appsService.createApp(req.body);
-    res.status(201).json(newApp);
-  } catch (error) {
-    res.status(400).json({ message: 'Error creating app', error: error instanceof Error ? error.message : 'Unknown error' });
+    const app = await appService.createApp(req.body);
+    res.status(201).json({ app, message: 'App created successfully!' });
+  } catch (error : any) {
+    res.status(400).json({ message: 'Error creating app', error: error.message });
   }
 });
 
-// Atualizar app
-router.put('/apps/:uuid', async (req, res) => {
+// Atualizar App
+router.put('/apps/:uuid', authMiddleware, async (req, res) => {
   try {
-    const updatedApp = await appsService.updateApp(req.params.uuid, req.body);
-    res.json(updatedApp);
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    res.status(400).json({ message: 'Error updating app', error: errorMessage });
+    const { uuid } = req.params;
+    const updatedApp = await appService.updateApp(uuid, req.body);
+
+    res.json({ app: updatedApp, message: 'App updated successfully!' });
+  } catch (error: any) {
+    res.status(400).json({ message: 'Error updating app', error: error.message });
   }
 });
 
-// Deletar app
-router.delete('/apps/:uuid', async (req, res) => {
-  try {
-    const deleted = await appsService.deleteApp(req.params.uuid);
-    res.json({ deleted });
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    res.status(500).json({ message: 'Error deleting app', error: errorMessage });
-  }
-});
 
-// Atualizar o campo updatedAt
-router.patch('/apps/:uuid/update-timestamp', async (req, res) => {
+
+// Atualizar updatedAt do App
+router.patch('/apps/:uuid/updated-at', authMiddleware, async (req, res) => {
   try {
-    const updated = await appsService.updateAppUpdatedAt(req.params.uuid);
-    res.json(updated);
+    const { uuid } = req.params;
+    const updatedApp = await appService.updateAppUpdatedAt(uuid);
+
+    res.json({ app: updatedApp, message: 'App updatedAt updated successfully!' });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    res.status(500).json({ message: 'Error updating timestamp', error: errorMessage });
+    res.status(500).json({ message: 'Error updating updatedAt', error });
   }
 });
 

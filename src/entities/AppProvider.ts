@@ -9,6 +9,7 @@ import {
 import { ProviderTypes } from "./ProviderTypes";
 import { Apps } from "./Apps";
 import { LeisIncentivo } from "./LeisIncentivo";
+import { Accounts } from "./Accounts";
 
 @Index("app_provider_pkey", ["uuid"], { unique: true })
 @Entity("app_provider", { schema: "public" })
@@ -55,4 +56,6 @@ export class AppProvider {
     (leisIncentivo) => leisIncentivo.appProviderUuid
   )
   leisIncentivos: LeisIncentivo[];
+  @OneToMany(() => Accounts, (accounts) => accounts.appProvider)
+  accounts: Accounts[];
 }
