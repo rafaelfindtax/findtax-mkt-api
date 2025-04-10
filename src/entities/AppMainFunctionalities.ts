@@ -29,7 +29,12 @@ export class AppMainFunctionalities {
   })
   updatedAt: Date;
 
-  @ManyToOne(() => Apps, (apps) => apps.appMainFunctionalities)
+  // appUuid apenas como string
+  @Column("uuid", { name: "app_uuid" })
+  appUuid: string;
+
+  // Relação com Apps (opcional, lazy loading se necessário)
+  @ManyToOne(() => Apps, (apps) => apps.appMainFunctionalities, { eager: false })
   @JoinColumn([{ name: "app_uuid", referencedColumnName: "appUuid" }])
-  appUuid: Apps;
+  app: Apps;
 }

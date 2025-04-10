@@ -8,52 +8,53 @@ export class AppMainFunctionalitiesService {
     this.repository = new AppMainFunctionalitiesRepository();
   }
 
-  async getAllFunctionalities(): Promise<AppMainFunctionalities[]> {
+  async getAll(): Promise<AppMainFunctionalities[]> {
     return this.repository.findAll();
   }
 
-  async getFunctionalityById(id: number): Promise<AppMainFunctionalities | null> {
+  async getById(id: number): Promise<AppMainFunctionalities | null> {
     return this.repository.findById(id);
   }
 
-  async getFunctionalitiesByAppUuid(appUuid: string): Promise<AppMainFunctionalities[]> {
+  async getByAppUuid(appUuid: string): Promise<AppMainFunctionalities[]> {
     return this.repository.findByAppUuid(appUuid);
   }
 
-  async createFunctionality(functionalityData: Partial<AppMainFunctionalities>): Promise<AppMainFunctionalities> {
-    if (!functionalityData.description) {
-      throw new Error('Description is required');
-    }
-    if (!functionalityData.appUuid || !functionalityData.appUuid.appUuid) {
-      throw new Error('App UUID is required');
-    }
-    return this.repository.create(functionalityData);
+  async create(functionality: Partial<AppMainFunctionalities>): Promise<AppMainFunctionalities> {
+    const { description, appUuid, createdAt, updatedAt } = functionality;
+
+    if (!description) throw new Error('Description is required');
+    if (!appUuid || !appUuid) throw new Error('App UUID is required');
+
+    return this.repository.create({
+      description,
+      appUuid,
+      createdAt: createdAt ?? new Date(),
+      updatedAt: updatedAt ?? new Date()
+    });
   }
 
-  async updateFunctionality(
-    id: number,
-    functionalityData: Partial<AppMainFunctionalities>
-  ): Promise<AppMainFunctionalities | null> {
-    const existingFunctionality = await this.repository.findById(id);
-    if (!existingFunctionality) {
-      throw new Error('Functionality not found');
-    }
-    return this.repository.update(id, functionalityData);
+  async update(id: number, data: Partial<AppMainFunctionalities>): Promise<AppMainFunctionalities | null> {
+    const existing = await this.repository.findById(id);
+    if (!existing) return null;
+
+    return this.repository.update(id, {
+      ...data,
+      updatedAt: new Date()
+    });
   }
 
-  async deleteFunctionality(id: number): Promise<boolean> {
-    const existingFunctionality = await this.repository.findById(id);
-    if (!existingFunctionality) {
-      throw new Error('Functionality not found');
-    }
+  async delete(id: number): Promise<boolean> {
+    const existing = await this.repository.findById(id);
+    if (!existing) return false;
+
     return this.repository.delete(id);
   }
 
-  async updateFunctionalityUpdatedAt(id: number): Promise<AppMainFunctionalities | null> {
-    const existingFunctionality = await this.repository.findById(id);
-    if (!existingFunctionality) {
-      throw new Error('Functionality not found');
-    }
+  async updateUpdatedAt(id: number): Promise<AppMainFunctionalities | null> {
+    const existing = await this.repository.findById(id);
+    if (!existing) return null;
+
     return this.repository.updateUpdatedAt(id);
   }
 }

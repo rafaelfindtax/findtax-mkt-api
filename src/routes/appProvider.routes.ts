@@ -1,63 +1,85 @@
 import { Router } from 'express';
-import { AppProviderService } from '../services/AppProviderService';
+import { AppMainFunctionalitiesService } from '../services/AppMainFunctionalitiesService';
 
 const router = Router();
-const appProviderService = new AppProviderService();
+const functionalityService = new AppMainFunctionalitiesService();
 
-router.get('/app-providers', async (req, res) => {
+router.get('/app-main-functionalities', async (req, res) => {
   try {
-    const providers = await appProviderService.getAll();
-    res.json({ providers, message: 'Providers fetched successfully!' });
+    const list = await functionalityService.getAll();
+    res.json({ functionalities: list, message: 'Functionalities fetched successfully!' });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching providers', error });
+    res.status(500).json({ message: 'Error fetching functionalities', error });
   }
 });
 
-router.get('/app-providers/:uuid', async (req, res) => {
+router.get('/app-main-functionalities/:appUuid', async (req, res) => {
   try {
-    const provider = await appProviderService.getByUuid(req.params.uuid);
-    if (!provider) {    
-     res.status(404).json({ message: 'Provider not found' });
-     return
+    const list = await functionalityService.getByAppUuid(req.params.appUuid);
+    res.json({ functionalities: list });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching functionalities by appUuid', error });
+  }
+});
+
+router.post('/app-main-functionalities', async (req, res) => {
+  try {
+    const { functionalities, appUuid } = req.body;
+
+    if (!Array.isArray(functionalities) || functionalities.length < 3) {
+       res.status(400).json({ message: 'Pelo menos 3 funcionalidades são obrigatórias.' });
+       return
     }
-    res.json(provider);
+
+    if (!appUuid) {
+       res.status(400).json({ message: 'App UUID é obrigatório.' });
+       return
+    }
+
+    const createdAt = new Date();
+    const updatedAt = new Date();
+
+    const created = await Promise.all(
+      functionalities.map(({ description }: { description: string }) =>
+        functionalityService.create({
+          description,
+          appUuid,
+          createdAt,
+          updatedAt
+        })
+      )
+    );
+
+    res.status(201).json({ message: 'Funcionalidades criadas com sucesso!', created });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching provider', error });
+    console.log(error)
+    res.status(500).json({ message: 'Erro ao criar funcionalidades', error });
   }
 });
 
-router.post('/app-providers', async (req, res) => {
+router.put('/app-main-functionalities/:id', async (req, res) => {
   try {
-    const created = await appProviderService.create(req.body);
-    res.status(201).json(created);
-  } catch (error) {
-    res.status(500).json({ message: 'Error creating provider', error });
-  }
-});
-
-router.put('/app-providers/:uuid', async (req, res) => {
-  try {
-    const updated = await appProviderService.update(req.params.uuid, req.body);
+    const updated = await functionalityService.update(Number(req.params.id), req.body);
     if (!updated) {
-       res.status(404).json({ message: 'Provider not found' });
+       res.status(404).json({ message: 'Funcionalidade não encontrada' });
        return
     }
     res.json(updated);
   } catch (error) {
-    res.status(500).json({ message: 'Error updating provider', error });
+    res.status(500).json({ message: 'Erro ao atualizar funcionalidade', error });
   }
 });
 
-router.delete('/app-providers/:uuid', async (req, res) => {
+router.delete('/app-main-functionalities/:id', async (req, res) => {
   try {
-    const deleted = await appProviderService.delete(req.params.uuid);
+    const deleted = await functionalityService.delete(Number(req.params.id));
     if (!deleted) {
-    res.status(404).json({ message: 'Provider not found' });
-      return
+       res.status(404).json({ message: 'Funcionalidade não encontrada' });
+       return
     }
-    res.json({ message: 'Provider deleted successfully' });
+    res.json({ message: 'Funcionalidade removida com sucesso' });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting provider', error });
+    res.status(500).json({ message: 'Erro ao deletar funcionalidade', error });
   }
 });
 

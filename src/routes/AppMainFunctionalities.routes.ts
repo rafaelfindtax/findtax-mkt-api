@@ -14,4 +14,5 @@ router.get('/functionalities', async (req, res) => {
   }
 });
 
+
 export default router;
