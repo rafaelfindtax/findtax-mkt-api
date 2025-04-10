@@ -14,7 +14,7 @@ router.get('/accounts', async (req, res) => {
   }
 });
 
-router.get('/accounts/:uuid', async (req, res) => {
+router.get('/account/:uuid', authMiddleware, async (req, res) => {
   try {
     const { uuid } = req.params; // Pega o uuid da URL
     const account = await accountService.getAccountByUuid(uuid);
