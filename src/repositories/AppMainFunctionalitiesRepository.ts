@@ -24,7 +24,7 @@ export class AppMainFunctionalitiesRepository {
 
   async findByAppUuid(appUuid: string): Promise<AppMainFunctionalities[]> {
     return this.repository.find({
-      where: { appUuid: { appUuid } },
+      where: { appUuid },
       relations: ['appUuid'],
     });
   }

@@ -40,16 +40,27 @@ router.post('/app-main-functionalities', async (req, res) => {
     const createdAt = new Date();
     const updatedAt = new Date();
 
-    const created = await functionalityService.create({
-      description: functionalities.join(', '), // Assuming functionalities is an array of descriptions
-      app: { appUuid } as Apps, // <- isso associa via chave estrangeira
-      createdAt,
-      updatedAt
-    });
+    const createdFunctionalities = [];
 
-    res.status(201).json({ message: 'Funcionalidades criadas com sucesso!', created });
+    for (const item of functionalities) {
+      if (!item.description) continue;
+
+      const created = await functionalityService.create({
+        description: item.description,
+        appUuid,
+        createdAt,
+        updatedAt,
+      });
+
+      createdFunctionalities.push(created);
+    }
+
+    res.status(201).json({
+      message: 'Funcionalidades criadas com sucesso!',
+      created: createdFunctionalities,
+    });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ message: 'Erro ao criar funcionalidades', error });
   }
 });

@@ -23,8 +23,9 @@ export class AppMainFunctionalitiesService {
   async create(functionality: Partial<AppMainFunctionalities>): Promise<AppMainFunctionalities> {
     const { description, appUuid, createdAt, updatedAt } = functionality;
 
+    console.log(appUuid)
     if (!description) throw new Error('Description is required');
-    if (!appUuid || !appUuid) throw new Error('App UUID is required');
+    if (!appUuid) throw new Error('App UUID is required');
 
     return this.repository.create({
       description,

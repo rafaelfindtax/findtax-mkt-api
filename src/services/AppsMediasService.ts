@@ -19,16 +19,17 @@ export class AppsMediasService {
   async getMediasByAppUuid(appUuid: string): Promise<AppsMedias[]> {
     return this.repository.findByAppUuid(appUuid);
   }
-
+  
   async createMedia(mediaData: Partial<AppsMedias>): Promise<AppsMedias> {
     if (!mediaData.assetId) {
       throw new Error('Asset ID is required');
     }
-    if (!mediaData.appUuid || !mediaData.appUuid.appUuid) {
+    if (!mediaData.appUuid) {
       throw new Error('App UUID is required');
     }
     return this.repository.create(mediaData);
   }
+  
 
   async updateMedia(appMediaUuid: string, mediaData: Partial<AppsMedias>): Promise<AppsMedias | null> {
     const existingMedia = await this.repository.findByUuid(appMediaUuid);

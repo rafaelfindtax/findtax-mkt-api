@@ -24,7 +24,7 @@ export class AppsMediasRepository {
 
   async findByAppUuid(appUuid: string): Promise<AppsMedias[]> {
     return this.repository.find({
-      where: { appUuid: { appUuid } },
+      where: { appUuid },
       relations: ['appUuid'],
     });
   }
