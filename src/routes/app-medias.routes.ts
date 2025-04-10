@@ -49,7 +49,8 @@ router.post('/app-medias', authMiddleware, async (req, res) => {
     const media = await appMediasService.createMedia(req.body);
     res.status(201).json({ media, message: 'Media created successfully!' });
   } catch (error) {
-    res.status(400).json({ message: 'Error creating media', error: error.message });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    res.status(400).json({ message: 'Error creating media', error: errorMessage });
   }
 });
 
@@ -61,7 +62,8 @@ router.put('/app-medias/:uuid', authMiddleware, async (req, res) => {
 
     res.json({ media: updatedMedia, message: 'Media updated successfully!' });
   } catch (error) {
-    res.status(400).json({ message: 'Error updating media', error: error.message });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    res.status(400).json({ message: 'Error updating media', error: errorMessage });
   }
 });
 

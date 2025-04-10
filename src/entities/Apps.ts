@@ -76,7 +76,7 @@ export class Apps {
 
   @OneToMany(
     () => AppMainFunctionalities,
-    (appMainFunctionalities) => appMainFunctionalities.appUuid
+    (appMainFunctionalities) => appMainFunctionalities
   )
   appMainFunctionalities: AppMainFunctionalities[];
 
