@@ -11,14 +11,14 @@ export class AppProviderRepository {
 
   async findAll(): Promise<AppProvider[]> {
     return this.repository.find({
-      relations: ['apps', 'leisIncentivos', 'providerTypeUu', 'accounts'],
+      relations: ['apps', 'leisIncentivos', 'providerTypeUuid', 'accounts'],
     });
   }
 
   async findByUuid(uuid: string): Promise<AppProvider | null> {
     return this.repository.findOne({
       where: { uuid },
-      relations: ['apps', 'leisIncentivos', 'providerTypeUu', 'accounts'],
+      relations: ['apps', 'leisIncentivos', 'providerTypeUuid', 'accounts'],
     });
   }
 
@@ -28,9 +28,14 @@ export class AppProviderRepository {
   }
 
   async update(uuid: string, data: Partial<AppProvider>): Promise<AppProvider | null> {
-    await this.repository.update(uuid, data);
+    await this.repository.update(uuid, {
+      ...data,
+      updatedAt: new Date(),
+    });
+  
     return this.findByUuid(uuid);
   }
+  
 
   async delete(uuid: string): Promise<boolean> {
     const result = await this.repository.delete(uuid);
