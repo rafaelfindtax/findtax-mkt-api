@@ -62,17 +62,18 @@ export class AppsService {
   }
 
   async updateAppPhoto(uuid: string, appPhoto: string) {
-    const result = await this.repository.update(
-      uuid,
+    const result = await this.repository.updateApp(
+      { appUuid: uuid },
       {
-        appPhoto: appPhoto,
-        updatedAt: new Date()
+        appPhoto,
+        updatedAt: new Date(),
       }
     );
-    if (!result) {
+  
+    if (!result || result.affected === 0) {
       throw new Error('Update operation failed');
     }
-    return result ? { success: true } : null;
-  }
   
+    return { success: true };
+  }
 }

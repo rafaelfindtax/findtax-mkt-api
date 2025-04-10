@@ -26,7 +26,10 @@ export class AppsMedias {
   @Column("timestamp without time zone", { name: "updated_at", nullable: true })
   updatedAt: Date | null;
 
+  @Column("uuid", { name: "app_uuid" })
+  appUuid: string;
+
   @ManyToOne(() => Apps, (apps) => apps.appsMedias)
   @JoinColumn([{ name: "app_uuid", referencedColumnName: "appUuid" }])
-  appUuid: Apps;
+  app: Apps;
 }

@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { Apps } from '../entities/Apps';
 import { AppDataSource } from '../config/database';
 
@@ -7,6 +7,12 @@ export class AppsRepository {
 
   constructor() {
     this.repository = AppDataSource.getRepository(Apps);
+  }
+
+  private repo = AppDataSource.getRepository(Apps);
+
+  async updateApp(where: Partial<Apps>, data: Partial<Apps>) {
+    return this.repo.update(where as FindOptionsWhere<Apps>, data);
   }
 
   async findAll(): Promise<Apps[]> {
