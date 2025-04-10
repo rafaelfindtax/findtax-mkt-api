@@ -28,5 +28,5 @@ export class LeisMedias {
 
   @ManyToOne(() => LeisIncentivo, (leisIncentivo) => leisIncentivo.leisMedias)
   @JoinColumn([{ name: "lei_uuid", referencedColumnName: "leiUuid" }])
-  leiUu: LeisIncentivo;
+  leiUuid: LeisIncentivo;
 }

@@ -23,9 +23,9 @@ export class AppIntegrationsService {
     return this.repository.findByName(name);
   }
 
-  // Obter integrações por integrationsMediaUuid
-  async getIntegrationsByMediaUuid(integrationsMediaUuid: string): Promise<AppIntegrations[]> {
-    return this.repository.findByMediaUuid(integrationsMediaUuid);
+  // Obter integrações por integrationsMediaUuidid
+  async getIntegrationsByMediaUuid(integrationsMediaUuidid: string): Promise<AppIntegrations[]> {
+    return this.repository.findByMediaUuid(integrationsMediaUuidid);
   }
 
   // Criar uma nova integração

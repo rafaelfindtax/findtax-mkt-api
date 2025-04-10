@@ -31,10 +31,10 @@ export class AppRatingService {
     if (ratingData.stars === undefined || ratingData.stars < 0 || ratingData.stars > 5) {
       throw new Error('Stars must be between 0 and 5');
     }
-    if (!ratingData.accountUu || !ratingData.accountUu.uuid) {
+    if (!ratingData.accountUuid || !ratingData.accountUuid.uuid) {
       throw new Error('Account UUID is required');
     }
-    if (!ratingData.appUu || !ratingData.appUu.appUuid) {
+    if (!ratingData.appUuid || !ratingData.appUuid.appUuid) {
       throw new Error('App UUID is required');
     }
     return this.repository.create(ratingData);

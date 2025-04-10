@@ -12,7 +12,7 @@ export class AppFunctionalitiesRepository {
   // Buscar todos os registros
   async findAll(): Promise<AppFunctionalities[]> {
     return this.repository.find({
-      relations: ['appUu'], // Inclui a relação com Apps
+      relations: ['appUuid'], // Inclui a relação com Apps
     });
   }
 
@@ -20,7 +20,7 @@ export class AppFunctionalitiesRepository {
   async findById(id: number): Promise<AppFunctionalities | null> {
     return this.repository.findOne({
       where: { id },
-      relations: ['appUu'],
+      relations: ['appUuid'],
     });
   }
 
@@ -28,15 +28,15 @@ export class AppFunctionalitiesRepository {
   async findByName(name: string): Promise<AppFunctionalities[]> {
     return this.repository.find({
       where: { name },
-      relations: ['appUu'],
+      relations: ['appUuid'],
     });
   }
 
   // Buscar por appUuid (relação)
   async findByAppUuid(appUuid: string): Promise<AppFunctionalities[]> {
     return this.repository.find({
-      where: { appUu: { appUuid } },
-      relations: ['appUu'],
+      where: { appUuid: { appUuid } },
+      relations: ['appUuid'],
     });
   }
 

@@ -24,7 +24,7 @@ export class AppsMediasService {
     if (!mediaData.assetId) {
       throw new Error('Asset ID is required');
     }
-    if (!mediaData.appUu || !mediaData.appUu.appUuid) {
+    if (!mediaData.appUuid || !mediaData.appUuid.appUuid) {
       throw new Error('App UUID is required');
     }
     return this.repository.create(mediaData);

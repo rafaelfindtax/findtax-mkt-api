@@ -42,5 +42,5 @@ export class AppIntegrations {
       referencedColumnName: "integrationMediaUuid",
     },
   ])
-  integrationsMediaUu: IntegrationsMedias;
+  integrationsMediaUuid: IntegrationsMedias;
 }

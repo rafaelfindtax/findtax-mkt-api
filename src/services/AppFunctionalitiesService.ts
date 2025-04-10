@@ -34,7 +34,7 @@ export class AppFunctionalitiesService {
     if (!functionalityData.name) {
       throw new Error('Name is required');
     }
-    if (!functionalityData.appUu || !functionalityData.appUu.appUuid) {
+    if (!functionalityData.appUuid || !functionalityData.appUuid.appUuid) {
       throw new Error('App UUID is required');
     }
     return this.repository.create(functionalityData);

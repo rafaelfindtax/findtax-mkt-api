@@ -16,7 +16,7 @@ export class AppsRepository {
         'appMainFunctionalities',
         'appRatings',
         'appTags',
-        'appProviderUu',
+        'appProviderUuid',
         'appsMedias',
       ],
     });
@@ -30,7 +30,7 @@ export class AppsRepository {
         'appMainFunctionalities',
         'appRatings',
         'appTags',
-        'appProviderUu',
+        'appProviderUuid',
         'appsMedias',
       ],
     });
@@ -44,21 +44,21 @@ export class AppsRepository {
         'appMainFunctionalities',
         'appRatings',
         'appTags',
-        'appProviderUu',
+        'appProviderUuid',
         'appsMedias',
       ],
     });
   }
 
-  async findByProviderUuid(appProviderUuid: string): Promise<Apps[]> {
+  async findByProviderUuid(appProviderUuidid: string): Promise<Apps[]> {
     return this.repository.find({
-      where: { appProviderUu: { uuid: appProviderUuid } },
+      where: { appProviderUuid: { uuid: appProviderUuidid } },
       relations: [
         'appFunctionalities',
         'appMainFunctionalities',
         'appRatings',
         'appTags',
-        'appProviderUu',
+        'appProviderUuid',
         'appsMedias',
       ],
     });

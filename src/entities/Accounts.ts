@@ -104,7 +104,7 @@ export class Accounts {
   })
   lastLoggedAt: Date | null;
 
-  @OneToMany(() => AppRating, (appRating) => appRating.accountUu)
+  @OneToMany(() => AppRating, (appRating) => appRating.accountUuid)
   appRatings: AppRating[];
 
   @ManyToOne(() => AppProvider, (appProvider) => appProvider.accounts)

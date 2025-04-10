@@ -32,9 +32,9 @@ export class AppRating {
 
   @ManyToOne(() => Accounts, (accounts) => accounts.appRatings)
   @JoinColumn([{ name: "account_uuid", referencedColumnName: "uuid" }])
-  accountUu: Accounts;
+  accountUuid: Accounts;
 
   @ManyToOne(() => Apps, (apps) => apps.appRatings)
   @JoinColumn([{ name: "app_uuid", referencedColumnName: "appUuid" }])
-  appUu: Apps;
+  appUuid: Apps;
 }

@@ -11,21 +11,21 @@ export class AppsMediasRepository {
 
   async findAll(): Promise<AppsMedias[]> {
     return this.repository.find({
-      relations: ['appUu'],
+      relations: ['appUuid'],
     });
   }
 
   async findByUuid(appMediaUuid: string): Promise<AppsMedias | null> {
     return this.repository.findOne({
       where: { appMediaUuid },
-      relations: ['appUu'],
+      relations: ['appUuid'],
     });
   }
 
   async findByAppUuid(appUuid: string): Promise<AppsMedias[]> {
     return this.repository.find({
-      where: { appUu: { appUuid } },
-      relations: ['appUu'],
+      where: { appUuid: { appUuid } },
+      relations: ['appUuid'],
     });
   }
 

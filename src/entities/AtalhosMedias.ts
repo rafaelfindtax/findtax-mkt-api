@@ -28,7 +28,7 @@ export class AtalhosMedias {
 
   @OneToMany(
     () => AccountAtalhos,
-    (accountAtalhos) => accountAtalhos.atalhoMediaUu
+    (accountAtalhos) => accountAtalhos.atalhoMediaUuid
   )
   accountAtalhos: AccountAtalhos[];
 }

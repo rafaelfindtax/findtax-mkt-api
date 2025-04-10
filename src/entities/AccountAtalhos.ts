@@ -30,5 +30,5 @@ export class AccountAtalhos {
   @JoinColumn([
     { name: "atalho_media_uuid", referencedColumnName: "atalhoMediaUuid" },
   ])
-  atalhoMediaUu: AtalhosMedias;
+  atalhoMediaUuid: AtalhosMedias;
 }

@@ -43,5 +43,5 @@ export class AppFunctionalities {
 
   @ManyToOne(() => Apps, (apps) => apps.appFunctionalities)
   @JoinColumn([{ name: "app_uuid", referencedColumnName: "appUuid" }])
-  appUu: Apps;
+  appUuid: Apps;
 }

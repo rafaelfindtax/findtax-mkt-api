@@ -70,20 +70,20 @@ export class Apps {
 
   @OneToMany(
     () => AppFunctionalities,
-    (appFunctionalities) => appFunctionalities.appUu
+    (appFunctionalities) => appFunctionalities.appUuid
   )
   appFunctionalities: AppFunctionalities[];
 
   @OneToMany(
     () => AppMainFunctionalities,
-    (appMainFunctionalities) => appMainFunctionalities.appUu
+    (appMainFunctionalities) => appMainFunctionalities.appUuid
   )
   appMainFunctionalities: AppMainFunctionalities[];
 
-  @OneToMany(() => AppRating, (appRating) => appRating.appUu)
+  @OneToMany(() => AppRating, (appRating) => appRating.appUuid)
   appRatings: AppRating[];
 
-  @OneToMany(() => AppTags, (appTags) => appTags.appUu)
+  @OneToMany(() => AppTags, (appTags) => appTags.appUuid)
   appTags: AppTags[];
 
   @ManyToOne(() => AppCategories, (appCategories) => appCategories.apps)
@@ -94,8 +94,8 @@ export class Apps {
 
   @ManyToOne(() => AppProvider, (appProvider) => appProvider.apps)
   @JoinColumn([{ name: "app_provider_uuid", referencedColumnName: "uuid" }])
-  appProviderUu: AppProvider;
+  appProviderUuid: AppProvider;
 
-  @OneToMany(() => AppsMedias, (appsMedias) => appsMedias.appUu)
+  @OneToMany(() => AppsMedias, (appsMedias) => appsMedias.appUuid)
   appsMedias: AppsMedias[];
 }

@@ -11,21 +11,21 @@ export class LeisMediasRepository {
 
   async findAll(): Promise<LeisMedias[]> {
     return this.repository.find({
-      relations: ['leiUu'],
+      relations: ['leiUuid'],
     });
   }
 
   async findByUuid(leiMediaUuid: string): Promise<LeisMedias | null> {
     return this.repository.findOne({
       where: { leiMediaUuid },
-      relations: ['leiUu'],
+      relations: ['leiUuid'],
     });
   }
 
   async findByLeiUuid(leiUuid: string): Promise<LeisMedias[]> {
     return this.repository.find({
-      where: { leiUu: { leiUuid } },
-      relations: ['leiUu'],
+      where: { leiUuid: { leiUuid } },
+      relations: ['leiUuid'],
     });
   }
 

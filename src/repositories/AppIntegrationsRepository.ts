@@ -12,7 +12,7 @@ export class AppIntegrationsRepository {
   // Buscar todos os registros
   async findAll(): Promise<AppIntegrations[]> {
     return this.repository.find({
-      relations: ['integrationsMediaUu'], // Inclui a relação com IntegrationsMedias
+      relations: ['integrationsMediaUuid'], // Inclui a relação com IntegrationsMedias
     });
   }
 
@@ -20,7 +20,7 @@ export class AppIntegrationsRepository {
   async findByUuid(integrationsUuid: string): Promise<AppIntegrations | null> {
     return this.repository.findOne({
       where: { integrationsUuid },
-      relations: ['integrationsMediaUu'],
+      relations: ['integrationsMediaUuid'],
     });
   }
 
@@ -28,15 +28,15 @@ export class AppIntegrationsRepository {
   async findByName(name: string): Promise<AppIntegrations[]> {
     return this.repository.find({
       where: { name },
-      relations: ['integrationsMediaUu'],
+      relations: ['integrationsMediaUuid'],
     });
   }
 
-  // Buscar por integrationsMediaUuid (relação)
-  async findByMediaUuid(integrationsMediaUuid: string): Promise<AppIntegrations[]> {
+  // Buscar por integrationsMediaUuidid (relação)
+  async findByMediaUuid(integrationsMediaUuidid: string): Promise<AppIntegrations[]> {
     return this.repository.find({
-      where: { integrationsMediaUu: { integrationMediaUuid: integrationsMediaUuid } },
-      relations: ['integrationsMediaUu'],
+      where: { integrationsMediaUuid: { integrationMediaUuid: integrationsMediaUuidid } },
+      relations: ['integrationsMediaUuid'],
     });
   }
 
