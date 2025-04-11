@@ -6,7 +6,7 @@ const router = Router();
 const appMediasService = new AppsMediasService();
 
 // Buscar todas as mídias
-router.get('/app-medias', authMiddleware, async (req, res) => {
+router.get('/app-medias', async (req, res) => {
   try {
     const medias = await appMediasService.getAllMedias();
     res.json({ medias, message: 'Medias fetched successfully!' });
@@ -16,7 +16,7 @@ router.get('/app-medias', authMiddleware, async (req, res) => {
 });
 
 // Buscar mídia por UUID
-router.get('/app-medias/:uuid', authMiddleware, async (req, res) => {
+router.get('/app-medias/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params;
     const media = await appMediasService.getMediaByUuid(uuid);
@@ -32,7 +32,7 @@ router.get('/app-medias/:uuid', authMiddleware, async (req, res) => {
 });
 
 // Buscar mídias por UUID do App
-router.get('/app-medias/app/:appUuid', authMiddleware, async (req, res) => {
+router.get('/app-medias/app/:appUuid', async (req, res) => {
   try {
     const { appUuid } = req.params;
     const medias = await appMediasService.getMediasByAppUuid(appUuid);
@@ -44,7 +44,7 @@ router.get('/app-medias/app/:appUuid', authMiddleware, async (req, res) => {
 });
 
 // Criar mídia
-router.post('/app-medias', authMiddleware, async (req, res) => {
+router.post('/app-medias', async (req, res) => {
   try {
     const media = await appMediasService.createMedia(req.body);
     res.status(201).json({ media, message: 'Media created successfully!' });
@@ -54,7 +54,7 @@ router.post('/app-medias', authMiddleware, async (req, res) => {
 });
 
 // Atualizar mídia
-router.put('/app-medias/:uuid', authMiddleware, async (req, res) => {
+router.put('/app-medias/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params;
     const updatedMedia = await appMediasService.updateMedia(uuid, req.body);
@@ -66,7 +66,7 @@ router.put('/app-medias/:uuid', authMiddleware, async (req, res) => {
 });
 
 // Deletar mídia
-router.delete('/app-medias/:uuid', authMiddleware, async (req, res) => {
+router.delete('/app-medias/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params;
     const deleted = await appMediasService.deleteMedia(uuid);
@@ -82,7 +82,7 @@ router.delete('/app-medias/:uuid', authMiddleware, async (req, res) => {
 });
 
 // Atualizar updatedAt da mídia
-router.patch('/app-medias/:uuid/updated-at', authMiddleware, async (req, res) => {
+router.patch('/app-medias/:uuid/updated-at', async (req, res) => {
   try {
     const { uuid } = req.params;
     const updatedMedia = await appMediasService.updateMediaUpdatedAt(uuid);

@@ -6,7 +6,7 @@ const router = Router();
 const appService = new AppsService();
 
 // Buscar todos os Apps
-router.get('/apps', authMiddleware, async (req, res) => {
+router.get('/apps', async (req, res) => {
   try {
     const apps = await appService.getAllApps();
     res.json({ apps, message: 'Apps fetched successfully!' });
@@ -17,7 +17,7 @@ router.get('/apps', authMiddleware, async (req, res) => {
 
 // Buscar App por UUID
 // Atualizar App
-router.get('/apps/:uuid', authMiddleware, async (req, res) => {
+router.get('/apps/:uuid', async (req, res) => {
     try {
         const { uuid } = req.params;
         const app = await appService.getAppByUuid(uuid);
@@ -38,7 +38,7 @@ router.get('/apps/:uuid', authMiddleware, async (req, res) => {
 
 
 // Buscar Apps por nome
-router.get('/apps/name/:name', authMiddleware, async (req, res) => {
+router.get('/apps/name/:name', async (req, res) => {
   try {
     const { name } = req.params;
     const apps = await appService.getAppsByName(name);
@@ -50,7 +50,7 @@ router.get('/apps/name/:name', authMiddleware, async (req, res) => {
 });
 
 // Buscar Apps por UUID do Provider
-router.get('/apps/provider/:providerUuid', authMiddleware, async (req, res) => {
+router.get('/apps/provider/:providerUuid', async (req, res) => {
   try {
     const { providerUuid } = req.params;
     const apps = await appService.getAppsByProviderUuid(providerUuid);
@@ -62,7 +62,7 @@ router.get('/apps/provider/:providerUuid', authMiddleware, async (req, res) => {
 });
 
 // Criar App
-router.post('/apps', authMiddleware, async (req, res) => {
+router.post('/apps', async (req, res) => {
   try {
     const app = await appService.createApp(req.body);
     res.status(201).json({ app, message: 'App created successfully!' });
@@ -72,7 +72,7 @@ router.post('/apps', authMiddleware, async (req, res) => {
 });
 
 // Atualizar App
-router.put('/apps/:uuid', authMiddleware, async (req, res) => {
+router.put('/apps/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params;
     const updatedApp = await appService.updateApp(uuid, req.body);
@@ -83,7 +83,7 @@ router.put('/apps/:uuid', authMiddleware, async (req, res) => {
   }
 });
 
-router.put('/apps/:uuid', authMiddleware, async (req, res) => {
+router.put('/apps/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params;
     const updatedApp = await appService.updateApp(uuid, req.body);
@@ -94,7 +94,7 @@ router.put('/apps/:uuid', authMiddleware, async (req, res) => {
   }
 });
 
-router.put('/apps/:uuid/photo', authMiddleware, async (req, res) => {
+router.put('/apps/:uuid/photo', async (req, res) => {
   try {
     const updated = await appService.updateAppPhoto(req.params.uuid, req.body.appPhoto);
     if (!updated) {
@@ -110,7 +110,7 @@ router.put('/apps/:uuid/photo', authMiddleware, async (req, res) => {
 
 
 // Atualizar updatedAt do App
-router.patch('/apps/:uuid/updated-at', authMiddleware, async (req, res) => {
+router.patch('/apps/:uuid/updated-at', async (req, res) => {
   try {
     const { uuid } = req.params;
     const updatedApp = await appService.updateAppUpdatedAt(uuid);
