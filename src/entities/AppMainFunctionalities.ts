@@ -30,6 +30,6 @@ export class AppMainFunctionalities {
   updatedAt: Date;
 
   @ManyToOne(() => Apps, (apps) => apps.appMainFunctionalities)
-  @JoinColumn([{ name: "app_uuid", referencedColumnName: "appUuid" }])
+  @JoinColumn([{ name: "app_uuid", referencedColumnName: "appUuid" }]) // Referência correta
   appUuid: Apps;
 }
