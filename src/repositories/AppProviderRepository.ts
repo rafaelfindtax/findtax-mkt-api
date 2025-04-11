@@ -11,14 +11,14 @@ export class AppProviderRepository {
 
   async findAll(): Promise<AppProvider[]> {
     return this.repository.find({
-      relations: ['apps', 'leisIncentivos', 'providerTypeUu', 'accounts'],
+      relations: ['apps', 'leisIncentivos', 'providerTypeUuid', 'accounts'],
     });
   }
 
   async findByUuid(uuid: string): Promise<AppProvider | null> {
     return this.repository.findOne({
       where: { uuid },
-      relations: ['apps', 'leisIncentivos', 'providerTypeUu', 'accounts'],
+      relations: ['apps', 'leisIncentivos', 'providerTypeUuid', 'accounts'],
     });
   }
 
