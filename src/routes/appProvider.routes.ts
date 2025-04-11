@@ -44,6 +44,7 @@ router.put('/app-providers/:uuid', async (req, res) => {
     }
     res.json(updated);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: 'Error updating provider', error });
   }
 });
