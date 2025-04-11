@@ -13,6 +13,7 @@ export class AppProviderRepository {
     return this.repository.find({
       relations: ['apps', 'leisIncentivos', 'providerTypeUuid', 'accounts'],
     });
+    console.log("")
   }
 
   async findByUuid(uuid: string): Promise<AppProvider | null> {
