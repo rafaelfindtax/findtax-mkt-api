@@ -14,7 +14,7 @@ router.get('/accounts', async (req, res) => {
   }
 });
 
-router.get('/account/:uuid', authMiddleware, async (req, res) => {
+router.get('/account/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params; // Pega o uuid da URL
     const account = await accountService.getAccountByUuid(uuid);
@@ -29,7 +29,7 @@ router.get('/account/:uuid', authMiddleware, async (req, res) => {
   }
 }); 
 
-router.get('/accounts/email/:email', authMiddleware, async (req: AuthenticatedRequest, res) => {
+router.get('/accounts/email/:email', async (req: AuthenticatedRequest, res) => {
   try {
     const { email } = req.params;
 
@@ -45,7 +45,7 @@ router.get('/accounts/email/:email', authMiddleware, async (req: AuthenticatedRe
   }
 });
 
-router.put('/accounts/email/:email', authMiddleware, async (req: AuthenticatedRequest, res): Promise<void> => {
+router.put('/accounts/email/:email', async (req: AuthenticatedRequest, res): Promise<void> => {
   try {
     const { email } = req.params;
     const updatedAccount = await accountService.updateAccountByEmail(email, req.body);
@@ -61,7 +61,7 @@ router.put('/accounts/email/:email', authMiddleware, async (req: AuthenticatedRe
   }
 });
 
-router.get('/accounts/:email/provider', authMiddleware, async (req: AuthenticatedRequest, res) => {
+router.get('/accounts/:email/provider', async (req: AuthenticatedRequest, res) => {
   try {
     const { email } = req.params;
 
