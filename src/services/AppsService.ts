@@ -74,5 +74,15 @@ export class AppsService {
     }
     return result ? { success: true } : null;
   }
+
+    // 🔍 Novo método: Buscar apps por e-mail do account
+    async getAppsByAccountEmail(email: string): Promise<Apps[]> {
+      return this.repository.findAppsByAccountEmail(email);
+    }
+  
+    // 🔍 Novo método: Buscar apps por UUID do account
+    async getAppsByAccountUuid(uuid: string): Promise<Apps[]> {
+      return this.repository.findAppsByAccountUuid(uuid);
+    }
   
 }
