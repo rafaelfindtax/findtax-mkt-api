@@ -121,4 +121,26 @@ router.patch('/apps/:uuid/updated-at', async (req, res) => {
   }
 });
 
+// 🔍 Buscar Apps pelo email da conta (Account)
+router.get('/apps/account/email/:email', async (req, res) => {
+  try {
+    const { email } = req.params;
+    const apps = await appService.getAppsByAccountEmail(email);
+    res.json({ apps, message: 'Apps fetched successfully by account email!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching apps by account email', error });
+  }
+});
+
+// 🔍 Buscar Apps pelo UUID da conta (Account)
+router.get('/apps/account/uuid/:uuid', async (req, res) => {
+  try {
+    const { uuid } = req.params;
+    const apps = await appService.getAppsByAccountUuid(uuid);
+    res.json({ apps, message: 'Apps fetched successfully by account UUID!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching apps by account UUID', error });
+  }
+});
+
 export default router;

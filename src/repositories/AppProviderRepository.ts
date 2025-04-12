@@ -48,4 +48,6 @@ export class AppProviderRepository {
     await this.repository.update(uuid, { updatedAt: new Date() });
     return this.findByUuid(uuid);
   }
+
+  
 }

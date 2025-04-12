@@ -83,4 +83,34 @@ export class AppsRepository {
     await this.repository.update(appUuid, { updatedAt: new Date() });
     return this.findByUuid(appUuid);
   }
+
+  async findAppsByAccountEmail(email: string): Promise<Apps[]> {
+    return this.repository
+      .createQueryBuilder('app')
+      .leftJoinAndSelect('app.appProviderUuid', 'provider')
+      .leftJoin('provider.accounts', 'account')
+      .where('account.email = :email', { email })
+      .leftJoinAndSelect('app.appFunctionalities', 'appFunctionalities')
+      .leftJoinAndSelect('app.appMainFunctionalities', 'appMainFunctionalities')
+      .leftJoinAndSelect('app.appRatings', 'appRatings')
+      .leftJoinAndSelect('app.appTags', 'appTags')
+      .leftJoinAndSelect('app.appsMedias', 'appsMedias')
+      .getMany();
+  }
+
+  async findAppsByAccountUuid(accountUuid: string): Promise<Apps[]> {
+    return this.repository
+      .createQueryBuilder('app')
+      .leftJoinAndSelect('app.appProviderUuid', 'provider')
+      .leftJoin('provider.accounts', 'account')
+      .where('account.uuid = :uuid', { uuid: accountUuid })
+      .leftJoinAndSelect('app.appFunctionalities', 'appFunctionalities')
+      .leftJoinAndSelect('app.appMainFunctionalities', 'appMainFunctionalities')
+      .leftJoinAndSelect('app.appRatings', 'appRatings')
+      .leftJoinAndSelect('app.appTags', 'appTags')
+      .leftJoinAndSelect('app.appsMedias', 'appsMedias')
+      .getMany();
+  }
+  
+  
 }
