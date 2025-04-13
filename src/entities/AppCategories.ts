@@ -20,10 +20,10 @@ export class AppCategories {
 
   @OneToMany(
     () => AppSubCategories,
-    (appSubCategories) => appSubCategories.appCategoryUu
+    (appSubCategories) => appSubCategories.appCategoryUuid
   )
   appSubCategories: AppSubCategories[];
 
-  @OneToMany(() => Apps, (apps) => apps.appCategoryUu)
+  @OneToMany(() => Apps, (apps) => apps.appCategoryUuid)
   apps: Apps[];
 }

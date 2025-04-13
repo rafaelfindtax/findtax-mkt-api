@@ -90,7 +90,7 @@ export class Apps {
   @JoinColumn([
     { name: "app_category_uuid", referencedColumnName: "appCategoriesUuid" },
   ])
-  appCategoryUu: AppCategories;
+  appCategoryUuid: AppCategories;
 
   @ManyToOne(() => AppProvider, (appProvider) => appProvider.apps)
   @JoinColumn([{ name: "app_provider_uuid", referencedColumnName: "uuid" }])

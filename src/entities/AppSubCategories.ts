@@ -25,5 +25,5 @@ export class AppSubCategories {
   @JoinColumn([
     { name: "app_category_uuid", referencedColumnName: "appCategoriesUuid" },
   ])
-  appCategoryUu: AppCategories;
+  appCategoryUuid: AppCategories;
 }
