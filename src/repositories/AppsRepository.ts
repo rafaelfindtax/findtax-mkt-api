@@ -18,6 +18,7 @@ export class AppsRepository {
         'appTags',
         'appProviderUuid',
         'appsMedias',
+        'appCategoryUuid'
       ],
     });
   }
@@ -32,6 +33,7 @@ export class AppsRepository {
         'appTags',
         'appProviderUuid',
         'appsMedias',
+        'appCategoryUuid'
       ],
     });
   }
@@ -109,8 +111,7 @@ export class AppsRepository {
       .leftJoinAndSelect('app.appRatings', 'appRatings')
       .leftJoinAndSelect('app.appTags', 'appTags')
       .leftJoinAndSelect('app.appsMedias', 'appsMedias')
+      .leftJoinAndSelect('app.appCategoryUuid', 'appCategoryUuid') 
       .getMany();
   }
-  
-  
 }
