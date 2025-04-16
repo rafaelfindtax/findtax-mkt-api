@@ -25,6 +25,9 @@ RUN npm ci --only=production
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 
+# Copy .env file
+COPY .env ./
+
 # Set environment variables
 ENV NODE_ENV=production
 ENV PORT=5000

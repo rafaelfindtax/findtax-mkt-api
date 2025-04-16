@@ -5,7 +5,6 @@ yarn-error.log
 .github
 .gitignore
 .vscode
-.env
 .env.*
 *.md
 dist
