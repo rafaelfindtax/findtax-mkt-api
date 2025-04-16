@@ -30,6 +30,9 @@ export class AppProvider {
   @Column("text", { name: "photo" })
   photo: string;
 
+  @Column("text", { name: "provider_type_uuid" })
+  provider_type_uuid: string;
+  
   @Column("timestamp without time zone", {
     name: "created_at",
     default: () => "now()",
