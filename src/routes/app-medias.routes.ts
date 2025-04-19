@@ -49,7 +49,7 @@ router.post('/app-medias', async (req, res) => {
     const media = await appMediasService.createMedia(req.body);
     res.status(201).json({ media, message: 'Media created successfully!' });
   } catch (error) {
-    res.status(400).json({ message: 'Error creating media', error: error.message });
+    res.status(400).json({ message: 'Error creating media', error: error });
   }
 });
 
@@ -61,7 +61,7 @@ router.put('/app-medias/:uuid', async (req, res) => {
 
     res.json({ media: updatedMedia, message: 'Media updated successfully!' });
   } catch (error) {
-    res.status(400).json({ message: 'Error updating media', error: error.message });
+    res.status(400).json({ message: 'Error updating media', error: error });
   }
 });
 
