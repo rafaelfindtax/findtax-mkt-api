@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:22.14.0-alpine
 
 WORKDIR /app
 
@@ -20,4 +20,4 @@ EXPOSE 5000
 RUN npm run build
 
 # Executa o JS compilado
-CMD ["node", "dist/index.js"]
+CMD ["npm", "start"]
