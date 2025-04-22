@@ -1,5 +1,6 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne , OneToMany} from "typeorm";
 import { AppCategories } from "./AppCategories";
+
 
 @Index("app_sub_categories_pkey", ["appSubCategoryUuid"], { unique: true })
 @Entity("app_sub_categories", { schema: "public" })
@@ -19,11 +20,13 @@ export class AppSubCategories {
 
   @ManyToOne(
     () => AppCategories,
-    (appCategories) => appCategories.appSubCategories,
+    (appCategories) => appCategories.appCategoriesUuid,
     { onDelete: "CASCADE" }
   )
   @JoinColumn([
     { name: "app_category_uuid", referencedColumnName: "appCategoriesUuid" },
   ])
   appCategoryUuid: AppCategories;
+
+
 }
