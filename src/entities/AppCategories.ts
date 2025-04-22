@@ -2,6 +2,8 @@ import { Column, Entity, Index, OneToMany } from "typeorm";
 import { AppSubCategories } from "./AppSubCategories";
 import { Apps } from "./Apps";
 
+import { AppCategoryRelationships } from "./AppCategoryRelationships";
+
 @Index("app_categories_pkey", ["appCategoriesUuid"], { unique: true })
 @Entity("app_categories", { schema: "public" })
 export class AppCategories {
@@ -26,4 +28,10 @@ export class AppCategories {
 
   @OneToMany(() => Apps, (apps) => apps.appCategoryUuid)
   apps: Apps[];
+    // Novo: Categorias usadas em relacionamentos
+    @OneToMany(
+      () => AppCategoryRelationships,
+      (relationship) => relationship.category.appCategoriesUuid
+    )
+    appCategoryRelationships: AppCategoryRelationships[];
 }
