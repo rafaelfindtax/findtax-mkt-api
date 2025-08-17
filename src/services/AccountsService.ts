@@ -17,6 +17,8 @@ export class AccountsService {
     return this.repository.findAll();
   }
 
+  
+
   // Obter uma conta por UUID
   async getAccountByUuid(uuid: string): Promise<Accounts | null> {
     return this.repository.findByUuid(uuid);

@@ -3,16 +3,25 @@ import { Accounts } from '../entities/Accounts';
 import { AppDataSource } from '../config/database';
 
 export class AccountsRepository {
+  createQueryBuilder(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
   private repository: Repository<Accounts>;
 
   constructor() {
     this.repository = AppDataSource.getRepository(Accounts);
   }
 
+  private defaultRelations = [
+    'accountRoles',
+    'appProvider',
+    'appRatings',
+  ];
+
   // Buscar todos os registros
   async findAll(): Promise<Accounts[]> {
     return this.repository.find({
-      relations: ['appRatings', 'appProvider'], // Inclui appProvider
+      relations: this.defaultRelations
     });
   }
 
@@ -20,7 +29,7 @@ export class AccountsRepository {
   async findByUuid(uuid: string): Promise<Accounts | null> {
     return this.repository.findOne({
       where: { uuid },
-      relations: ['appRatings', 'appProvider'], // Inclui appProvider
+      relations: this.defaultRelations, // Inclui appProvider
     });
   }
 
@@ -28,7 +37,7 @@ export class AccountsRepository {
   async findById(id: number): Promise<Accounts | null> {
     return this.repository.findOne({
       where: { id },
-      relations: ['appRatings', 'appProvider'], // Inclui appProvider
+      relations: this.defaultRelations, // Inclui appProvider
     });
   }
 
@@ -36,7 +45,7 @@ export class AccountsRepository {
   async findByEmail(email: string): Promise<Accounts | null> {
     return this.repository.findOne({
       where: { email },
-      relations: ['appRatings', 'appProvider'], // Inclui appProvider
+      relations: this.defaultRelations, // Inclui appProvider
     });
   }
 
