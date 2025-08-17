@@ -6,16 +6,17 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 import { AppRating } from "./AppRating";
 import { AppProvider } from "./AppProvider";
+import { AccountsRoles } from "./AccountsRoles";
 
 @Index("accounts_email_key", ["email"], { unique: true })
 @Index("accounts_pkey", ["uuid"], { unique: true })
 @Entity("accounts", { schema: "public" })
 export class Accounts {
-  @Column("uuid", {
-    primary: true,
+  @PrimaryColumn("uuid", {
     name: "uuid",
     default: () => "gen_random_uuid()",
   })
@@ -110,4 +111,15 @@ export class Accounts {
   @ManyToOne(() => AppProvider, (appProvider) => appProvider.accounts)
   @JoinColumn([{ name: "app_provider_uuid", referencedColumnName: "uuid" }])
   appProvider: AppProvider | null;
+
+  @Column("enum", {
+    name: "accounts_status",
+    enum: ["ATIVO", "INATIVO", "BLOQUEADO"],
+    default: () => "'ATIVO'",
+  })
+  accountsStatus: "ATIVO" | "INATIVO" | "BLOQUEADO";
+
+  @ManyToOne(() => AccountsRoles, (accountsRoles) => accountsRoles.accounts)
+  @JoinColumn([{ name: "account_roles_uuid", referencedColumnName: "uuid" }])
+  accountRoles: AccountsRoles;
 }

@@ -61,4 +61,11 @@ export class AppProvider {
   leisIncentivos: LeisIncentivo[];
   @OneToMany(() => Accounts, (accounts) => accounts.appProvider)
   accounts: Accounts[];
+
+  @Column("enum", {
+    name: "provider_status",
+    enum: ["ATIVO", "INATIVO", "PENDENTE", "BLOQUEADO"],
+    default: () => "'ATIVO'",
+  })
+  providerStatus: "ATIVO" | "INATIVO" | "PENDENTE" | "BLOQUEADO";
 }
