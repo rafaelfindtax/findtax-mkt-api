@@ -13,7 +13,8 @@ import { Accounts } from "./Accounts";
 
 @Index("app_provider_pkey", ["uuid"], { unique: true })
 @Entity("app_provider", { schema: "public" })
-export class AppProvider {
+export class 
+AppProvider {
   @Column("uuid", {
     primary: true,
     name: "uuid",
