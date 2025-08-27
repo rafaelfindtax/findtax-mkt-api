@@ -119,7 +119,11 @@ export class Accounts {
   })
   accountsStatus: "ATIVO" | "INATIVO" | "BLOQUEADO";
 
-  @ManyToOne(() => AccountsRoles, (accountsRoles) => accountsRoles.accounts)
-  @JoinColumn([{ name: "account_roles_uuid", referencedColumnName: "uuid" }])
+
+  @Column({ name: 'account_roles_uuid' })
+  account_roles_uuid: string;
+
+  @ManyToOne(() => AccountsRoles, (role) => role.accounts, { eager: true })
+  @JoinColumn({ name: 'account_roles_uuid', referencedColumnName: 'uuid' })
   accountRoles: AccountsRoles;
 }
