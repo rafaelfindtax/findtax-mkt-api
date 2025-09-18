@@ -2,13 +2,15 @@ import { AppProviderRepository } from '../repositories/AppProviderRepository';
 import { AppProvider } from '../entities/AppProvider';
 
 
+import { AppsMediasRepository } from "../repositories/AppsMediasRepository";
 
 export class AppProviderService {
   private repository: AppProviderRepository;
-
+  private appsMediasRepository: AppsMediasRepository;
 
   constructor() {
     this.repository = new AppProviderRepository();
+    this.appsMediasRepository = new AppsMediasRepository();
   }
 
 
@@ -71,10 +73,19 @@ export class AppProviderService {
     return this.repository.findAll();
   }
 
-  getByUuid(uuid: string): Promise<AppProvider | null> {
-    return this.repository.findByUuid(uuid);
-  }
+  async getByUuid(uuid: string): Promise<AppProvider | null> {
+    const provider = await this.repository.findByUuid(uuid);
+    if (!provider) return null;
 
+    // Implementando URL de app no get do Provider
+    for (const app of provider.apps) {
+      if (app.appPhoto) {
+        const media = await this.appsMediasRepository.findByUuid(app.appPhoto);
+        (app as any).appPhotoUrl = media?.assetId || null; // adiciona campo extra
+      }
+    }
+    return provider;
+  }
   create(data: Partial<AppProvider>): Promise<AppProvider> {
     return this.repository.create(data);
   }
