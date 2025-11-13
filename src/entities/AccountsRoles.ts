@@ -12,10 +12,10 @@ export class AccountsRoles {
   })
   uuid: string;
 
-  @Column("text", { name: "role_name", unique: true })
+  @Column("character varying", { name: "role_name", unique: true, length: 255 })
   roleName: string;
 
-  @Column("text", { name: "description", nullable: true })
+  @Column("character varying", { name: "description", nullable: true, length: 255 })
   description: string | null;
 
   @Column("timestamp without time zone", {

@@ -36,7 +36,7 @@ export class Accounts {
   @Column("character varying", { name: "name", length: 255 })
   name: string;
 
-  @Column("character varying", { name: "role", length: 25 })
+  @Column("character varying", { name: "role", length: 100 })
   role: string;
 
   @Column("character varying", { name: "cargo", nullable: true, length: 255 })

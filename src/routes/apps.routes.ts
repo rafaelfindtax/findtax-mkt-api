@@ -8,8 +8,8 @@ const appService = new AppsService();
 // Buscar todos os Apps
 router.get('/apps', async (req, res) => {
   try {
-    const apps = await appService.getAllApps();
-    res.json({ apps, message: 'Apps fetched successfully!' });
+    const apps = await appService.getAllAppsByProviderActive();
+    res.json({ apps, message: 'Apps when provider is actived fetched successfully!' });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching apps', error });
   }
