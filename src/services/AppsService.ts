@@ -12,6 +12,10 @@ export class AppsService {
     return this.repository.findAll();
   }
 
+  async getAllAppsByProviderActive(): Promise<Apps[]> {
+    return this.repository.findAllByProviderActive();
+  }
+
   async getAppByUuid(appUuid: string): Promise<Apps | null> {
     return this.repository.findByUuid(appUuid);
   }

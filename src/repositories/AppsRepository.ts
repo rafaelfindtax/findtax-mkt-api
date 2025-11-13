@@ -23,6 +23,21 @@ export class AppsRepository {
     });
   }
 
+  async findAllByProviderActive(): Promise<Apps[]> {
+    return this.repository
+      .createQueryBuilder('app')
+      .leftJoinAndSelect('app.appFunctionalities', 'appFunctionalities')
+      .leftJoinAndSelect('app.appMainFunctionalities', 'appMainFunctionalities')
+      .leftJoinAndSelect('app.appRatings', 'appRatings')
+      .leftJoinAndSelect('app.appTags', 'appTags')
+      .leftJoinAndSelect('app.appProviderUuid', 'appProvider') // 👈 relação com o provider
+      .leftJoinAndSelect('app.appsMedias', 'appsMedias')
+      .leftJoinAndSelect('app.appCategoryUuid', 'appCategoryUuid')
+      .where('appProvider.provider_status = :status', { status: 'ATIVO' }) // 👈 filtro aqui
+      .getMany();
+  }
+
+
   async findByUuid(appUuid: string): Promise<Apps | null> {
     return this.repository.findOne({
       where: { appUuid },
