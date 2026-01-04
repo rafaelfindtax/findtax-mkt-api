@@ -1,39 +1,73 @@
 import { Router } from 'express';
 import { AppsService } from '../services/AppsService';
 import { authMiddleware, AuthenticatedRequest } from '../middleware/auth';
+import { AppsMediasService } from '../services/AppsMediasService';
 
 const router = Router();
 const appService = new AppsService();
+const appsMediasService = new AppsMediasService();
 
 // Buscar todos os Apps
 router.get('/apps', async (req, res) => {
   try {
     const apps = await appService.getAllAppsByProviderActive();
-    res.json({ apps, message: 'Apps when provider is actived fetched successfully!' });
+    
+    // Processar cada app para buscar a logo e filtrar appsMedias
+    const appsWithLogos = await Promise.all(
+      apps.map(async (app: any) => {
+        const appLogo = app?.appPhoto;
+        const logo = appLogo ? await appsMediasService.getMediaByUuid(appLogo) : null;
+        
+        // Filtrar appsMedias para remover a logo
+        const filteredMedias = app.appsMedias?.filter(
+          (media: any) => media.appMediaUuid !== appLogo
+        ) || [];
+        
+        return {
+          ...app,
+          appPhoto: logo?.assetId || app.appPhoto,
+          appsMedias: filteredMedias
+        };
+      })
+    );
+    
+    res.json({ apps: appsWithLogos, message: 'Apps when provider is actived fetched successfully!' });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching apps', error });
   }
 });
 
 // Buscar App por UUID
-// Atualizar App
 router.get('/apps/:uuid', async (req, res) => {
     try {
         const { uuid } = req.params;
         const app = await appService.getAppByUuid(uuid);
+
+        if (!app) {
+            res.status(404).json({ message: `App with UUID ${uuid} not found` });
+            return;
+        }
+
+        const appLogo = app?.appPhoto;
+        const logo = appLogo ? await appsMediasService.getMediaByUuid(appLogo) : null;
+        
+        // Filtrar appsMedias para remover a logo
+        const filteredMedias = app.appsMedias?.filter(
+            media => media.appMediaUuid !== appLogo
+        ) || [];
+        
+        const appWithLogo = {
+            ...app,
+            appPhoto: logo?.assetId || app.appPhoto,
+            appsMedias: filteredMedias
+        };
   
-      
-    if (!app) {
-        res.status(404).json({ message: `App with UUID ${uuid} not found` });
-      }
-  
-    res.json({ app, message: 'App fetched successfully!' });
-      
+        res.json({ app: appWithLogo, message: 'App fetched successfully!' });
 
     } catch (error: any) {
         res.status(500).json({ message: 'Error fetching app', error });
     }
-  });
+});
   
 
 
