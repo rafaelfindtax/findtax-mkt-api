@@ -1,15 +1,15 @@
 import NodeCache from "node-cache";
-import { Request, Response, NextFunction } from "express";
+import { RequestHandler } from "express";
 
 const cache = new NodeCache({
-  stdTTL: 10, // 10 segundos
+  stdTTL: 10,
 });
 
 export function cacheMiddleware(
   key: string,
   fetcher: () => Promise<any>
-) {
-  return async (_req: Request, res: Response, _next: NextFunction) => {
+): RequestHandler {
+  return async (_req, res) => {
     try {
       const cached = cache.get(key);
       if (cached) {
