@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { AppsService } from '../services/AppsService';
 import { authMiddleware, AuthenticatedRequest } from '../middleware/auth';
 import { AppsMediasService } from '../services/AppsMediasService';
@@ -6,23 +6,24 @@ import { AppsMediasService } from '../services/AppsMediasService';
 const router = Router();
 const appService = new AppsService();
 const appsMediasService = new AppsMediasService();
+const UUID_V1_TO_V5_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-// Buscar todos os Apps
-router.get('/apps', async (req, res) => {
+const listAppsHandler = async (_req: Request, res: Response) => {
   try {
     const apps = await appService.getAllAppsByProviderActive();
-    
+
     // Processar cada app para buscar a logo e filtrar appsMedias
     const appsWithLogos = await Promise.all(
       apps.map(async (app: any) => {
         const appLogo = app?.appPhoto;
         const logo = appLogo ? await appsMediasService.getMediaByUuid(appLogo) : null;
-        
+
         // Filtrar appsMedias para remover a logo
         const filteredMedias = app.appsMedias?.filter(
           (media: any) => media.appMediaUuid !== appLogo
         ) || [];
-        
+
         return {
           ...app,
           appPhoto: logo?.assetId || app.appPhoto,
@@ -30,44 +31,18 @@ router.get('/apps', async (req, res) => {
         };
       })
     );
-    
+
     res.json({ apps: appsWithLogos, message: 'Apps when provider is actived fetched successfully!' });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching apps', error });
   }
-});
+};
 
-// Buscar App por UUID
-router.get('/apps/:uuid', async (req, res) => {
-    try {
-        const { uuid } = req.params;
-        const app = await appService.getAppByUuid(uuid);
+// Buscar todos os Apps
+router.get('/apps', listAppsHandler);
 
-        if (!app) {
-            res.status(404).json({ message: `App with UUID ${uuid} not found` });
-            return;
-        }
-
-        const appLogo = app?.appPhoto;
-        const logo = appLogo ? await appsMediasService.getMediaByUuid(appLogo) : null;
-        
-        // Filtrar appsMedias para remover a logo
-        const filteredMedias = app.appsMedias?.filter(
-            media => media.appMediaUuid !== appLogo
-        ) || [];
-        
-        const appWithLogo = {
-            ...app,
-            appPhoto: logo?.assetId || app.appPhoto,
-            appsMedias: filteredMedias
-        };
-  
-        res.json({ app: appWithLogo, message: 'App fetched successfully!' });
-
-    } catch (error: any) {
-        res.status(500).json({ message: 'Error fetching app', error });
-    }
-});
+// Alias para manter compatibilidade com clientes legados
+router.get('/apps/list', listAppsHandler);
   
 
 
@@ -92,6 +67,43 @@ router.get('/apps/provider/:providerUuid', async (req, res) => {
     res.json({ apps, message: 'Apps fetched successfully by provider!' });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching apps by provider', error });
+  }
+});
+
+// Buscar App por UUID
+router.get('/apps/:uuid', async (req, res) => {
+  try {
+    const { uuid } = req.params;
+    if (!UUID_V1_TO_V5_REGEX.test(uuid)) {
+      res.status(400).json({ message: 'Invalid app UUID' });
+      return;
+    }
+
+    const app = await appService.getAppByUuid(uuid);
+
+    if (!app) {
+      res.status(404).json({ message: `App with UUID ${uuid} not found` });
+      return;
+    }
+
+    const appLogo = app?.appPhoto;
+    const logo = appLogo ? await appsMediasService.getMediaByUuid(appLogo) : null;
+
+    // Filtrar appsMedias para remover a logo
+    const filteredMedias = app.appsMedias?.filter(
+      media => media.appMediaUuid !== appLogo
+    ) || [];
+
+    const appWithLogo = {
+      ...app,
+      appPhoto: logo?.assetId || app.appPhoto,
+      appsMedias: filteredMedias
+    };
+
+    res.json({ app: appWithLogo, message: 'App fetched successfully!' });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ message: 'Error fetching app', error: errorMessage });
   }
 });
 

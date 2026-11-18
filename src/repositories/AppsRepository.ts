@@ -33,7 +33,7 @@ export class AppsRepository {
       .leftJoinAndSelect('app.appProviderUuid', 'appProvider') // 👈 relação com o provider
       .leftJoinAndSelect('app.appsMedias', 'appsMedias')
       .leftJoinAndSelect('app.appCategoryUuid', 'appCategoryUuid')
-      .where('appProvider.provider_status = :status', { status: 'ATIVO' }) // 👈 filtro aqui
+      .where('appProvider.provider_status = :status', { status: 'ATIVO' }) // 👈 filtro aqui      
       .getMany();
   }
 

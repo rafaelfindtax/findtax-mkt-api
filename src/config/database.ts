@@ -19,12 +19,12 @@ export const AppDataSource = new DataSource({
   subscribers: [],
   migrations: ['src/migrations/**/*.{ts,js}'],
   // Configuração de SSL para Neon
-  ssl: true, // Habilita SSL
-  extra: {
-    ssl: {
-      rejectUnauthorized: false, // Aceita certificados não autorizados (apenas para desenvolvimento)
-    },
-  },
+  ssl: false, // Habilita SSL
+   //extra: {
+    //ssl: {
+      //rejectUnauthorized: false, // Aceita certificados não autorizados (apenas para desenvolvimento)
+   //,
+  //},
 });
 
 export const initializeDatabase = async () => {
