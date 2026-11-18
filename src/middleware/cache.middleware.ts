@@ -13,22 +13,24 @@ export function cacheMiddleware(
     try {
       const cached = cache.get(key);
       if (cached) {
-        return res.json(cached);
+        res.json(cached);
+        return;
       }
 
       const data = await fetcher();
       cache.set(key, data);
 
-      return res.json(data);
+      res.json(data);
+      return;
     } catch (err) {
       const fallback = cache.get(key);
       if (fallback) {
-        return res.json(fallback);
+        res.json(fallback);
+        return;
       }
 
-      return res
-        .status(500)
-        .json({ error: "Impostômetro indisponível" });
+      res.status(500).json({ error: "Impostômetro indisponível" });
+      return;
     }
   };
 }

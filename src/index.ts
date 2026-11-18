@@ -12,6 +12,7 @@ import appFunctionalitiesRoutes from './routes/AppMainFunctionalities.routes';
 import appsRoutes  from './routes/apps.routes';
 import appCategoryRelationshipsRoutes  from './routes/app-category-relationships.routes';
 import impostometroRoutes from './routes/impostometro.routes';
+import parametersRoutes from './routes/parameters.routes';
 
 
 import cors from 'cors';
@@ -37,6 +38,7 @@ app.use(API_VERSION, appsMediasRoutes);
 app.use(API_VERSION, appsRoutes);
 app.use(API_VERSION, appCategoryRelationshipsRoutes);
 app.use(API_VERSION, impostometroRoutes);
+app.use(API_VERSION, parametersRoutes);
 
 const startServer = async () => {
   const dbInitialized = await initializeDatabase();
